@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONSTRUYE TU HORARIO UPAO</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center" style="margin-bottom: 1em;">
+      CONSTRUYE TU HORARIO
+    </h1>
+    <div class="instructions-container mb-3">
+      <h2 class="instructions">Instrucciones <i class="fas fa-caret-right rotate"></i></h2>
+    </div>
+    <ul class="instructions-list">
+      <li>Selecciona el nombre del curso y los detalles correspondientes.</li>
+      <li>Haz clic en "Insertar" para agregar el curso al horario.</li>
+      <li>Para eliminar un curso, selecciona la fila y haz clic en "Eliminar".</li>
+      <li>Haz clic en "Capturar Horario" para guardar una imagen de tu horario.</li>
+    </ul>
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="nombreCurso">Nombre del Curso:</label>
+        <input type="text" class="form-control" id="nombreCurso">
+      </div>
+      <div class="col-md-2">
+        <label for="dia">Día:</label>
+        <select class="form-control" id="dia">
+          <option value="lunes">Lunes</option>
+          <option value="martes">Martes</option>
+          <option value="miércoles">Miércoles</option>
+          <option value="jueves">Jueves</option>
+          <option value="viernes">Viernes</option>
+          <option value="sábado">Sábado</option>
+          <option value="domingo">Domingo</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="horaInicio">Hora de Inicio:</label>
+        <input type="text" class="form-control" id="horaInicio" placeholder="HH:MM">
+      </div>
+      <div class="col-md-2">
+        <label for="horaFin">Hora de Fin:</label>
+        <input type="text" class="form-control" id="horaFin" placeholder="HH:MM">
+      </div>
+      <div class="col-md-1">
+        <label for="liga">Liga:</label>
+        <select class="form-control" id="liga">
+          <option value="T1">T1</option>
+          <option value="P1">P1</option>
+          <option value="L1">L1</option>
+          <option value="T2">T2</option>
+          <option value="P2">P2</option>
+          <option value="L2">L2</option>
+          <option value="T3">T3</option>
+          <option value="P3">P3</option>
+          <option value="L3">L3</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="nrc">NRC:</label>
+        <input type="text" class="form-control" id="nrc">
+      </div>
+    </div>
+    <div class="row mb-3 center">
+      <div class="col-md-12">
+        <label for="modalidad">Modalidad:</label>
+        <select class="form-control" id="modalidad">
+          <option value="presencial">Presencial</option>
+          <option value="no-presencial">No Presencial</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <p>Leyenda:</p>
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle mr-2" style="width: 20px; height: 20px; background-color: #004593;"></div>
+          <p class="mb-0">Presencial</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle mr-2" style="width: 20px; height: 20px; background-color: #ec6407;"></div>
+          <p class="mb-0">No Presencial</p>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3 center">
+      <div class="col-md-12 btn-group">
+        <button type="button" class="btn btn-primary" id="insertarBtn">Insertar</button>
+        <button type="button" class="btn btn-danger" id="eliminarCursoBtn">Eliminar</button>
+        <button type="button" class="btn btn-success" id="capturarBtn">
+          <i class="fas fa-camera"></i> Capturar Horario
+        </button>
+      </div>
+    </div>
+    <div class="table-responsive" style="margin-top: 4em;">
+      <table class="table table-bordered" id="tablaHorario">
+        <thead>
+          <tr>
+            <th>Hora</th>
+            <th>Lunes</th>
+            <th>Martes</th>
+            <th>Miércoles</th>
+            <th>Jueves</th>
+            <th>Viernes</th>
+            <th>Sábado</th>
+            <th>Domingo</th>
+          </tr>
+        </thead>
+        <tbody id="calendarioBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>

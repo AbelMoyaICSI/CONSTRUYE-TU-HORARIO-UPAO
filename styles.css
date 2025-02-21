@@ -1,0 +1,56 @@
+
+.editable {
+  cursor: pointer;
+}
+.center {
+  text-align: center;
+}
+.presencial {
+  background-color: #004593; /* Azul */
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+.no-presencial {
+  background-color: #ec6407; /* Naranja */
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+.btn-group {
+  margin-top: 20px; 
+}
+.curso-cell {
+  width: 60px; 
+  height: 60px; 
+  padding: 5px; 
+  overflow: hidden; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.align-middle {
+  vertical-align: middle !important;
+}
+.selected {
+  outline: 2px solid red;
+}
+.instructions {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 18px;
+}
+.instructions-list {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.rotate {
+  transition: transform 0.3s;
+}
+.rotate.right {
+  transform: rotate(90deg);
+}
+.instructions-container {
+  display: flex;
+  align-items: center;
+}
