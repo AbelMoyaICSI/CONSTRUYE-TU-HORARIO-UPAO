@@ -9,18 +9,21 @@
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center" style="margin-bottom: 1em;">
-      CONSTRUYE TU HORARIO
-    </h1>
+    <h1 class="text-center mb-4">CONSTRUYE TU HORARIO</h1>
+    
+    <!-- Instrucciones -->
     <div class="instructions-container mb-3">
       <h2 class="instructions">Instrucciones <i class="fas fa-caret-right rotate"></i></h2>
     </div>
     <ul class="instructions-list">
       <li>Selecciona el nombre del curso y los detalles correspondientes.</li>
       <li>Haz clic en "Insertar" para agregar el curso al horario.</li>
-      <li>Para eliminar un curso, selecciona la fila y haz clic en "Eliminar".</li>
+      <li>Si el nuevo curso se solapa o es contiguo a uno existente en el mismo día, se fusionará el intervalo.</li>
+      <li>Para eliminar un curso, selecciona la celda y haz clic en "Eliminar".</li>
       <li>Haz clic en "Capturar Horario" para guardar una imagen de tu horario.</li>
     </ul>
+    
+    <!-- Formulario de ingreso -->
     <div class="row mb-3">
       <div class="col-md-3">
         <label for="nombreCurso">Nombre del Curso:</label>
@@ -74,6 +77,8 @@
         </select>
       </div>
     </div>
+    
+    <!-- Leyenda -->
     <div class="row mb-3">
       <div class="col-md-12">
         <p>Leyenda:</p>
@@ -87,15 +92,19 @@
         </div>
       </div>
     </div>
+    
+    <!-- Botones -->
     <div class="row mb-3 center">
       <div class="col-md-12 btn-group">
         <button type="button" class="btn btn-primary" id="insertarBtn">Insertar</button>
-        <button type="button" class="btn btn-danger" id="eliminarCursoBtn">Eliminar</button>
+        <button type="button" class="btn btn-danger" id="eliminarBtn">Eliminar</button>
         <button type="button" class="btn btn-success" id="capturarBtn">
           <i class="fas fa-camera"></i> Capturar Horario
         </button>
       </div>
     </div>
+    
+    <!-- Tabla de horarios -->
     <div class="table-responsive" style="margin-top: 4em;">
       <table class="table table-bordered" id="tablaHorario">
         <thead>
@@ -110,17 +119,17 @@
             <th>Domingo</th>
           </tr>
         </thead>
-        <tbody id="calendarioBody">
-        </tbody>
+        <tbody id="calendarioBody"></tbody>
       </table>
     </div>
   </div>
+  
+  <!-- Dependencias JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
   <script src="script.js"></script>
-
 </body>
 </html>
