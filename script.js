@@ -1,11 +1,8 @@
 $(document).ready(function() {
-  
   var cursos = [];
-  var selectedActivityIndex = null; 
-  var selectedCell = null;         
-
+  var selectedActivityIndex = null;
+  var selectedCell = null;
   var dias = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"];
-
 
   function compareHours(h1, h2) {
     var [a1, b1] = h1.split(":").map(Number);
@@ -14,12 +11,10 @@ $(document).ready(function() {
     return b1 - b2;
   }
 
- 
   function checkOverlapAny(nombre, dia, horaInicio, horaFin) {
     for (let i = 0; i < cursos.length; i++) {
       let c = cursos[i];
       if (c.dia.toLowerCase() === dia.toLowerCase()) {
-        // Se solapan si: (horaInicioNuevo < horaFinExistente) && (horaFinNuevo > horaInicioExistente)
         if (compareHours(horaInicio, c.horaFin) < 0 && compareHours(horaFin, c.horaInicio) > 0) {
           return c;
         }
@@ -28,28 +23,21 @@ $(document).ready(function() {
     return null;
   }
 
-
   function construirTabla() {
-
     let timePoints = [];
     cursos.forEach(curso => {
       timePoints.push(curso.horaInicio);
       timePoints.push(curso.horaFin);
     });
-
     timePoints = Array.from(new Set(timePoints));
     timePoints.sort(compareHours);
-
-
     $("#calendarioBody").empty();
     let rows = [];
     for (let i = 0; i < timePoints.length - 1; i++) {
       let start = timePoints[i];
       let end = timePoints[i + 1];
       let $tr = $("<tr></tr>");
-
       $tr.append("<td>" + start + " - " + end + "</td>");
-
       dias.forEach(dia => {
         let $td = $("<td data-day='" + dia + "' data-start='" + start + "' data-end='" + end + "' class='align-middle'></td>");
         $tr.append($td);
@@ -57,15 +45,12 @@ $(document).ready(function() {
       rows.push($tr);
     }
     rows.forEach(row => $("#calendarioBody").append(row));
-
-
     $("#calendarioBody tr").each(function() {
       let timeRange = $(this).find("td:first").text();
       let [rowStart, rowEnd] = timeRange.split(" - ");
       $(this).find("td").each(function(index) {
-        if (index === 0) return; 
+        if (index === 0) return;
         let dia = $(this).attr("data-day");
-
         let curso = cursos.find(c =>
           c.dia.toLowerCase() === dia &&
           compareHours(c.horaInicio, rowStart) <= 0 &&
@@ -83,8 +68,6 @@ $(document).ready(function() {
         }
       });
     });
-  
-
     $("#calendarioBody tr").each(function() {
       let tieneCurso = false;
       $(this).find("td").each(function(index) {
@@ -97,8 +80,6 @@ $(document).ready(function() {
         $(this).remove();
       }
     });
-  
-
     for (let col = 1; col <= dias.length; col++) {
       let prevCell = null;
       let rowspan = 1;
@@ -117,7 +98,6 @@ $(document).ready(function() {
       });
     }
   }
-  
 
   function intentarFusionar(nombreCurso, horaInicio, horaFin, dia, modalidad, liga, nrc) {
     var rows = $('#calendarioBody tr');
@@ -127,9 +107,7 @@ $(document).ready(function() {
       if (!rangoText) continue;
       var [existingInicio, existingFin] = rangoText.split(' - ');
       var $cell = $row.find('td[data-day="' + dia + '"]');
-
       if ($cell.text().trim() === nombreCurso) {
-
         if (compareHours(horaInicio, existingFin) === 0 || compareHours(horaFin, existingInicio) === 0) {
           var newInicio = compareHours(existingInicio, horaInicio) <= 0 ? existingInicio : horaInicio;
           var newFin = compareHours(existingFin, horaFin) >= 0 ? existingFin : horaFin;
@@ -145,13 +123,11 @@ $(document).ready(function() {
           });
           return true;
         }
-
         if (compareHours(existingInicio, horaInicio) <= 0 && compareHours(existingFin, horaFin) >= 0) {
           alert("Ya existe el curso en ese horario para " + dia + ".");
           return true;
         }
       }
-
       if (compareHours(existingInicio, horaInicio) <= 0 && compareHours(existingFin, horaFin) >= 0) {
         var targetCell = $row.find('td[data-day="' + dia + '"]');
         if (targetCell.text().trim() === "") {
@@ -170,7 +146,6 @@ $(document).ready(function() {
           return true;
         }
       }
-
       if (compareHours(horaInicio, existingInicio) <= 0 && compareHours(horaFin, existingFin) >= 0) {
         $row.find('td:first').text(horaInicio + ' - ' + horaFin);
         var targetCell = $row.find('td[data-day="' + dia + '"]');
@@ -193,24 +168,18 @@ $(document).ready(function() {
     }
     return false;
   }
-  
 
   function insertarFila(nombreCurso, horaInicio, horaFin, dia, modalidad, liga, nrc) {
-
     var conflict = checkOverlapAny(nombreCurso, dia, horaInicio, horaFin);
     if (conflict) {
       alert("El curso '" + nombreCurso + "' (" + horaInicio + " - " + horaFin + ") se cruza con '" + conflict.nombre + "' (" + conflict.horaInicio + " - " + conflict.horaFin + ") en " + dia + ".");
       return;
     }
-    
-
     var rows = $('#calendarioBody tr.editable');
     if (intentarFusionar(nombreCurso, horaInicio, horaFin, dia, modalidad, liga, nrc)) {
       fusionarCeldas();
       return;
     }
-    
-  
     var existingRow = rows.filter(function() {
       var existingHora = $(this).find('td:first').text().trim();
       return existingHora === horaInicio + ' - ' + horaFin;
@@ -234,8 +203,6 @@ $(document).ready(function() {
         return;
       }
     }
-    
-
     var newRowHtml = '<tr class="editable">' +
       '<td>' + horaInicio + ' - ' + horaFin + '</td>' +
       '<td data-day="lunes" class="align-middle"></td>' +
@@ -257,8 +224,6 @@ $(document).ready(function() {
       "text-align": "center",
       "font-weight": "bold"
     });
-    
-
     function getIndexToInsert() {
       for (var i = 0; i < rows.length; i++) {
         var existingHora = $(rows[i]).find('td:first').text().trim();
@@ -274,11 +239,9 @@ $(document).ready(function() {
     } else {
       $(rows[insertIndex]).before(newRow);
     }
-  
     fusionarCeldas();
   }
-  
- 
+
   function fusionarCeldas() {
     var rows = $('#calendarioBody tr');
     rows.each(function(index, row) {
@@ -296,7 +259,6 @@ $(document).ready(function() {
       });
     });
   }
-  
 
   $('#calendarioBody').on('click', 'td', function() {
     if ($(this).index() === 0) return;
@@ -306,14 +268,14 @@ $(document).ready(function() {
     let idx = buscarActividadPorCelda($(this));
     selectedActivityIndex = (idx >= 0) ? idx : null;
   });
-  
 
   function buscarActividadPorCelda($cell) {
-    let $row = $cell.closest('tr');
-    let timeRange = $row.find('td:first').text().trim();
-    let [rowStart, rowEnd] = timeRange.split(' - ');
-    let dia = $cell.attr('data-day');
-    let nombre = $cell.text().trim();
+    let dia = $cell.attr("data-day");
+    let rowStart = $cell.attr("data-start");
+    let rowEnd = $cell.attr("data-end");
+    let nombre = $cell.contents().filter(function() {
+      return this.nodeType === 3;
+    }).text().trim();
     for (let i = 0; i < cursos.length; i++) {
       let c = cursos[i];
       if (c.dia.toLowerCase() === dia.toLowerCase() &&
@@ -325,7 +287,6 @@ $(document).ready(function() {
     }
     return -1;
   }
-  
 
   $('#insertarBtn').click(function() {
     var nombreCurso = $('#nombreCurso').val().trim();
@@ -335,7 +296,6 @@ $(document).ready(function() {
     var modalidad = $('#modalidad').val();
     var liga = $('#liga').val();
     var nrc = $('#nrc').val().trim();
-  
     if (!nombreCurso || !horaInicio || !horaFin) {
       alert('Por favor, completa todos los campos.');
       return;
@@ -344,19 +304,14 @@ $(document).ready(function() {
       alert('La hora de fin debe ser mayor que la de inicio.');
       return;
     }
-  
-
     let conflict = checkOverlapAny(nombreCurso, dia, horaInicio, horaFin);
     if (conflict) {
       alert("El curso '" + nombreCurso + "' (" + horaInicio + " - " + horaFin + ") se cruza con '" + conflict.nombre + "' (" + conflict.horaInicio + " - " + conflict.horaFin + ") en " + dia + ".");
       return;
     }
-  
-
     cursos.push({ nombre: nombreCurso, dia: dia, horaInicio: horaInicio, horaFin: horaFin, liga: liga, nrc: nrc, modalidad: modalidad });
     construirTabla();
   });
-  
 
   $('#eliminarBtn').click(function() {
     if (selectedActivityIndex !== null && selectedActivityIndex >= 0) {
@@ -368,7 +323,6 @@ $(document).ready(function() {
       alert("Selecciona una actividad para eliminar.");
     }
   });
-  
 
   $('#capturarBtn').click(function() {
     html2canvas(document.querySelector("#tablaHorario")).then(function(canvas) {
@@ -378,7 +332,6 @@ $(document).ready(function() {
       link.click();
     });
   });
-  
 
   $('.instructions').click(function() {
     $('.instructions-list').slideToggle("slow");
